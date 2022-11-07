@@ -1,10 +1,13 @@
 package io.zipcoder;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Student {
     //Field of String firstName, String lastName, and Double[] examScores;
     String firstName, lastName;
     Double[] examScores;
+    //Create decimal format to keep decimal 2 digits
+    DecimalFormat df = new DecimalFormat("0.00");
 
     //Constructor of Student with parameter of (String firstName, String lastName, Double[] examScores)
     Student(String firstName, String lastName, Double[]examScores) {
@@ -60,5 +63,25 @@ public class Student {
         }
         //Return the newly updated examScores
         return examScores;
+    }
+    String getAverageExamScore() {
+
+        //Create a variable for double (cannot be added without declaring a variable first)
+        double result = 0.0;
+
+        //Create a loop to read through all examScores
+        for (int i = 0; i < examScores.length; i++) {
+
+            //Add all the values into the declared double variable
+            result += examScores[i];
+        }
+        //Divide result by the length of the examScores and return it
+        //Format was used to keep decimal to 2 digits
+        return df.format(result/examScores.length);
+    }
+    String output() {
+        //Create a variable to convert everything to String
+        return ("Name: " + firstName + " " + lastName + "\nExam Scores: " + Arrays.toString(getExamScores())
+                + "\nAverage Score: " + getAverageExamScore());
     }
 }
