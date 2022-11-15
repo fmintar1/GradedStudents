@@ -1,26 +1,21 @@
 package io.zipcoder;
-import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.*;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class StudentTest {
 
-    static String firstName;
-    String lastName;
-    Double[] examScores = { };
-    Student student = new Student(firstName, lastName, examScores);
+    private String firstName;
+    private String lastName;
+    Double[] examScores;
+    Student student = new Student(null, null, null);
+    List<Double> temp = new ArrayList<>();
     DecimalFormat df = new DecimalFormat("0.00");
 
-//    @BeforeEach
-//    void setUp() {
-//    }
-//
-//    @AfterEach
-//    void tearDown() {
-//    }
     @Test
     public void setFirstNameTest() {
         //Given a new first name
@@ -33,12 +28,13 @@ public class StudentTest {
 
         //Then firstName should equal to getFirstName(), proving setFirstName() and getFirstName() works
 //        System.out.println("getFirstName(): " + expected + " equals to " + actual);
-        Assert.assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
+
     @Test
     public void setLastNameTest() {
         //Given a new last name (Dodge, Duck, Dip, Dive, and Dodge)
-        String lastName = "Stalinovskovichdavidovitchsky";
+        lastName = "Stalinovskovichdavidovitchsky";
 
         //When setLastName() method is called with parameter (lastName)
         student.setLastName(lastName);
@@ -47,101 +43,80 @@ public class StudentTest {
 
         //Then lastName should equal to getFirstName(), proving setFirstName() & getFirstName() works
 //        System.out.println("getLastName(): " + expected + " equals to " + actual);
-        Assert.assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
+
     @Test
     public void getExamScoresTest() {
         //Given a new examScores that's directly assigned to the object student
-        student.examScores = new Double[]{100.0, 99.9, 99.8}; //<-FRAN IS A FANTASTIC STUDENT!!!
+        String firstName = "Leon";
+        String lastName = "Hunter";
+        Double[] examScores = {100.0, 95.0, 123.0, 96.0};
+        ArrayList<Double> examList = new ArrayList<>(List.of(examScores));
+        Student student = new Student(firstName, lastName, examList);
+        student.examScores = examList;
 
-        //When assigned as Arrays.toString(Convert array to string to be printed out)
-        String expected = Arrays.toString(student.examScores);
-        String actual = Arrays.toString(student.getExamScores());
+        //When assigned as String.valueOf(Convert ArrayList to string to be printed out)
+        String expected = String.valueOf(student.getExamScores()); //<-Making sure getExamScores() are right
+        String actual = "[100.0, 95.0, 123.0, 96.0]";
 
         //Then student.examScores should equal to student.getExamScores()
-//        System.out.println("getExamScores(): " + expected + " equals to " + actual);
-        Assert.assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
+
     @Test
-    public void addExamScoresTest() {
-        //Given a new examScores
-        getExamScoresTest(); //<-Grabbing the exams added from getExamScoresTest
-        student.addExamScores(52.4); //<-Fran is playing too much DodgeBall and not enough studying
-        student.addExamScores(90.5); //<-Multiple tests to make sure all the scores are added
-        student.addExamScores(10.0); //<-Fran is addicted to DodgeBall
+    public void addExamScoreTest() {
+        String firstName = "Leon";
+        String lastName = "Hunter";
+        Double[] examScores = {};
+        ArrayList<Double> temp = new ArrayList<>(List.of(examScores));
+        Student student = new Student(firstName, lastName, temp);
 
-        //When assigned as Arrays.toString(convert array to string to be printed out)
-        String expected = Arrays.toString(student.examScores);
-        String actual = Arrays.toString(student.getExamScores());
+        // When
+        student.addExamScores(100);
+        String expected = student.getExamScores().toString();
 
-        //Then student.examScores should equal to student.getExamScores() method with the new multiple addExamScores() value to prove it works
-//        System.out.println("addExamScores(): " + expected + " equals to " + actual);
-        Assert.assertEquals(expected,actual);
-    }
-    @Test
-    public void getNumberOfExamsTakenTest() {
-        //Given examScores from the previous test method
-        addExamScoresTest();
-        student.addExamScores(99.9); //<-Fran has finally decided to study harder instead of focusing on DodgeBall, she's still deadly though
-
-        //When getNumberOfExamsTaken() method is called
-        int expected = student.examScores.length;
-        int actual = student.getNumberOfExamsTaken();
-
-        //Then examScores.length should equal to student.getNumberOfExamsTaken() method
-//        System.out.println("addMoreExamScores(): " + Arrays.toString(student.getExamScores()));
-//        System.out.println("getNumberOfExamsTaken(): " + expected + " equals to " + actual);
-        Assert.assertEquals(expected,actual);
+        assertEquals("[100.0]", expected);
     }
     @Test
     public void setExamScoresTest() {
-        //Given examScores from the previous test method
-        getNumberOfExamsTakenTest();
+        // : Given
+        String firstName = "Leon";
+        String lastName = "Hunter";
+        Double[] examScores = {100.0};
+        ArrayList<Double> temp = new ArrayList<>(List.of(examScores));
+        Student student = new Student(firstName, lastName, temp);
 
-        //When setExamScores() method is called
-        String actual = Arrays.toString(student.setExamScores(6, 90.5)); //<- Fran has decided to retake her terrible exam and aced it
-        String expected = Arrays.toString(student.getExamScores());
+        // When
+        student.setExamScores(0, 150.0);
 
-        //Then student.getExamScores() method should equal to the newly updated student.setExamScores() method
-//        System.out.println("setExamScores(): " + expected + " equals to " + actual);
-        Assert.assertEquals(expected,actual);
+        assertEquals("[150.0]", student.getExamScores().toString());
     }
     @Test
     public void getAverageExamScoresTest() {
-        //Given examScores from the previous test method
-        getNumberOfExamsTakenTest();
-        student.setExamScores(6, 90.5); //<- Give Fran her much deserved score update
-
-        //Use loop to read the values of examScores
-        double result = 0.00;
-        for(int i = 0; i < student.examScores.length; i++) {
-            result += student.examScores[i];
-        }
-
-        //When getAverageExamScores() method is called
-        String expected = df.format(result/student.examScores.length);
-        String actual = student.getAverageExamScore();
-
-        //Then student.getAverageExamScore() method should equal to student.examScores/student.examScores.length
-//        System.out.println("getAverageExamScores(): " + expected + " equals to " + actual);
-        Assert.assertEquals(expected, actual);
+        // : Given
+        String firstName = "Leon";
+        String lastName = "Hunter";
+        Double[] examScores = {100.0, 150.0, 250.0, 0.0};
+        ArrayList<Double> temp = new ArrayList<>(List.of(examScores));
+        Student student = new Student(firstName, lastName, temp);
+        // Then
+        assertEquals((100.0 + 150.0 + 250.0 + 0.0) / 4, student.getAverageExamScore(), 0.0001);
     }
     @Test
-    public void outputTest() {
+    public void toStringTest() {
         //Given examScores from the previous test method + updated score
-        getNumberOfExamsTakenTest();
-        student.setExamScores(6, 90.5);
-        student.setFirstName("Fran");
-        student.setLastName("Stalinovskovichdavidovitchsky");
+        Double[] examScores = {90.0, 89.9, 95.6};
+        Student fran = new Student("Fran", "Stalinovskovichdavidovitchsky", new ArrayList<>(List.of(examScores)));
 
         //When output() method is called
-        String expected = "Name: " + student.getFirstName() + " " + student.getLastName() + "\nExam Scores: "
-                + Arrays.toString(student.getExamScores())
-                + "\nAverage Score: " + student.getAverageExamScore();
-        String actual = student.output();
+        String expected = "Name: " + fran.getFirstName() + " " + fran.getLastName() + "\nExam Scores: "
+                + fran.getExamScores()
+                + "\nAverage Score: " + fran.getAverageExamScore();
+        String actual = fran.toString();
 
         //Then student.output() method should equal to the String expected
-        System.out.println("getAverageExamScores():\n\n" + expected + "\n\nequals to\n\n" + actual);
-        Assert.assertEquals(expected, actual);
+        System.out.println("toStringTest():\n\n" + expected + "\n\nequals to\n\n" + actual);
+        assertEquals(expected, actual);
     }
 }

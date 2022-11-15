@@ -1,20 +1,24 @@
 package io.zipcoder;
+import java.awt.geom.Arc2D;
 import java.text.DecimalFormat;
 import java.util.*;
 
-public class Student {
+public class Student{
     //Field of String firstName, String lastName, and Double[] examScores;
     String firstName, lastName;
-    Double[] examScores;
+    ArrayList<Double> examScores;
     //Create decimal format to keep decimal 2 digits
     DecimalFormat df = new DecimalFormat("0.00");
 
+    List<Double> temp = new ArrayList<>();
     //Constructor of Student with parameter of (String firstName, String lastName, Double[] examScores)
-    Student(String firstName, String lastName, Double[]examScores) {
-
-        //Assigning examScores directly
+    Student(String firstName, String lastName, ArrayList<Double> examScores) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.examScores = examScores;
     }
+
+    //METHODS
     String getFirstName() {
         return firstName;
     }
@@ -31,57 +35,42 @@ public class Student {
         //Assigning lastName passed to lastName field
         this.lastName = lastName;
     }
-    Double[] getExamScores() {
-        return examScores;
-    }
-    Double[] addExamScores(double examScore) {
-
-        //Converting Array to ArrayList temp for methods modification
-        ArrayList<Double> temp = new ArrayList<>(Arrays.asList(examScores));
-
-        //Adding examScore passed by the parameter to the ArrayList temp
-        temp.add(examScore);
-
-        //Assigning the newly updated ArrayList back to examScores Array and return it
-        return examScores = temp.toArray(new Double[0]);
-    }
     int getNumberOfExamsTaken() {
+
         //Returning the length of examScores
-        return examScores.length;
+        return examScores.size();
     }
-    Double[] setExamScores(int examNumber, double newScore) {
-
-        //Create a loop to read through all examScores
-        for (int i = 0; i < examScores.length; i++) {
-
-            //If the examNumber-1 matches where the index is
-            if(i == (examNumber-1)) {
-
-                //Update the examScore index i
-                examScores[i] = newScore;
-            }
-        }
-        //Return the newly updated examScores
+    ArrayList<Double> getExamScores() {
         return examScores;
     }
-    String getAverageExamScore() {
+    void addExamScores(double examScore) {
+        this.examScores.add(examScore);
+    }
+
+    ArrayList<Double> setExamScores(int examNumber, double newScore) {
+        examScores.set(examNumber, newScore);
+        return examScores;
+    }
+    double getAverageExamScore() {
 
         //Create a variable for double (cannot be added without declaring a variable first)
         double result = 0.0;
 
         //Create a loop to read through all examScores
-        for (int i = 0; i < examScores.length; i++) {
+        for (int i = 0; i < examScores.size(); i++) {
 
             //Add all the values into the declared double variable
-            result += examScores[i];
+            result += examScores.get(i);
         }
         //Divide result by the length of the examScores and return it
         //Format was used to keep decimal to 2 digits
-        return df.format(result/examScores.length);
+        String tempStr = df.format(result/examScores.size());
+
+        return Double.parseDouble(tempStr);
     }
-    String output() {
+    @Override
+    public String toString() {
         //Create a variable to convert everything to String
-        return ("Name: " + firstName + " " + lastName + "\nExam Scores: " + Arrays.toString(getExamScores())
-                + "\nAverage Score: " + getAverageExamScore());
+        return ("Name: " + firstName + " " + lastName + "\nExam Scores: " + getExamScores() + "\nAverage Score: " + getAverageExamScore());
     }
 }
