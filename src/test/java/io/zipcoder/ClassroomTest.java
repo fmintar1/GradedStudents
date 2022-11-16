@@ -2,13 +2,12 @@ package io.zipcoder;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
 public class ClassroomTest {
-    Student[] students;
+
     List<Student> temp;
     @Test
     public void addStudentsTest() {
@@ -69,7 +68,6 @@ public class ClassroomTest {
         Erza.addExamScores(95.7);
         Erza.addExamScores(100);
         fairyTail.addStudent(Erza);
-        System.out.println(fairyTail.getStudents(Erza));
         assertEquals("Name: Erza Scarlet\nExam Scores: [92.5, 95.7, 100.0]\nAverage Score: 96.07", fairyTail.getStudents(Erza).toString());
     }
     @Test
@@ -92,5 +90,30 @@ public class ClassroomTest {
         fairyTail.addStudent(Erza);
         fairyTail.removeStudent("Natsu", "Dragneel");
         assertEquals(null,fairyTail.getStudents(Natsu));
+    }
+    @Test
+    public void getStudentsByScoreTest() {
+        Classroom fairyTail = new Classroom();
+        Student Natsu = new Student("Natsu", "Dragneel", new ArrayList<>());
+        Natsu.addExamScores(50.0);
+        Natsu.addExamScores(45.8);
+        Natsu.addExamScores(72.5);
+        fairyTail.addStudent(Natsu);
+        Student Gray = new Student("Gray", "Fullbuster", new ArrayList<>());
+        Gray.addExamScores(72.5);
+        Gray.addExamScores(62.3);
+        Gray.addExamScores(80.2);
+        fairyTail.addStudent(Gray);
+        Student Erza = new Student("Erza", "Scarlet", new ArrayList<>());
+        Erza.addExamScores(92.5);
+        Erza.addExamScores(95.7);
+        Erza.addExamScores(100);
+        fairyTail.addStudent(Erza);
+        List<Double> scoresList = new ArrayList<>();
+        List<String> fullName = new ArrayList<>();
+        for (int i = 0; i < fairyTail.numOfStudents(); i++) {
+            fullName.add(i, fairyTail.students[i].getFirstName() + " " + fairyTail.students[i].getLastName());
+            scoresList.add(i, fairyTail.students[i].getAverageExamScore());
+        }
     }
 }

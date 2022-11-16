@@ -1,26 +1,25 @@
 package io.zipcoder;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Classroom{
     DecimalFormat df = new DecimalFormat("0.00");
-    Student[] students;
-    int maxNumberOfStudents;
-    int numOfStudentsInClass;
+    public Student[] students;
+    private int maxNumberOfStudents;
+    private int numOfStudentsInClass;
     Classroom (Student[] students) {
         this.students = students;
     }
     Classroom (int maxNumberOfStudents) {
         this.maxNumberOfStudents = maxNumberOfStudents;
     }
-    Classroom () {
+    protected Classroom () {
         students = new Student[30];
     }
 
-    public int numOfStudents() {
+    protected int numOfStudents() {
         int empty = 0;
         for(int i = 0; i < students.length; i++){
             if (students[i] == null) {
@@ -34,9 +33,9 @@ public class Classroom{
         for(int i = 0; i < students.length; i++) {
             if(students[i] == null) {
                 students[i] = student;
-                if(students[i] == student) {
+//                if(students[i] == student) {
                     break;
-                }
+//                }
             }
         }
     }
