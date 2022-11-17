@@ -1,8 +1,7 @@
 package io.zipcoder;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Classroom{
     DecimalFormat df = new DecimalFormat("0.00");
@@ -75,12 +74,18 @@ public class Classroom{
         }
     }
 
-    public void getStudentsByScore() {
-        numOfStudents();
-        for(int i = 0; i < numOfStudents(); i++) {
-            String name = students[i].getFirstName() + students[i].getLastName();
-            Double[] score = new Double[numOfStudents()];
-            score[i] = students[i].getAverageExamScore();
+    public LinkedHashMap<String, Double> getStudentsByScore() {
+        Map<String, Double> studentGradeMap = new TreeMap<>();
+        for (int i = 0; i < numOfStudents(); i++) {
+            studentGradeMap.put(students[i].getFirstName() + " " + students[i].getLastName(), students[i].getAverageExamScore());
         }
+        LinkedHashMap<String, Double> reverseStudentGrade = new LinkedHashMap<>();
+        studentGradeMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(x -> reverseStudentGrade.put(x.getKey(), x.getValue()));
+        return reverseStudentGrade;
+    }
+    public void getGradeBook() {
+
     }
 }
