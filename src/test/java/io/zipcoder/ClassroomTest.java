@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 public class ClassroomTest {
 
     List<Student> temp;
+
     @Test
     public void addStudentsTest() {
         Classroom fairyTail = new Classroom();
@@ -26,6 +27,7 @@ public class ClassroomTest {
         fairyTail.addStudent(Erza);
         assertEquals("Name: Gray Fullbuster\nExam Scores: [72.5, 62.3, 80.2]\nAverage Score: 71.67", fairyTail.getStudents(Gray).toString());
     }
+
     @Test
     public void getAverageExamScoreTest() {
         Classroom fairyTail = new Classroom();
@@ -47,6 +49,7 @@ public class ClassroomTest {
         System.out.println(fairyTail.getAverageStudentScore());
         assertEquals("74.61", fairyTail.getAverageStudentScore().toString());
     }
+
     @Test
     public void addStudentTest() {
         Classroom fairyTail = new Classroom();
@@ -67,6 +70,7 @@ public class ClassroomTest {
         fairyTail.addStudent(Erza);
         assertEquals("Name: Erza Scarlet\nExam Scores: [92.5, 95.7, 100.0]\nAverage Score: 96.07", fairyTail.getStudents(Erza).toString());
     }
+
     @Test
     public void removeStudentTest() {
         Classroom fairyTail = new Classroom();
@@ -86,8 +90,9 @@ public class ClassroomTest {
         Erza.addExamScores(100);
         fairyTail.addStudent(Erza);
         fairyTail.removeStudent("Natsu", "Dragneel");
-        assertEquals(null,fairyTail.getStudents(Natsu));
+        assertEquals(null, fairyTail.getStudents(Natsu));
     }
+
     @Test
     public void getStudentsByScoreTest() {
         Classroom fairyTail = new Classroom();
@@ -108,6 +113,7 @@ public class ClassroomTest {
         fairyTail.addStudent(Erza);
         System.out.println(fairyTail.getStudentsByScore());
     }
+
     @Test
     public void getGradeBookTest() {
         Classroom fairyTail = new Classroom();
@@ -161,34 +167,30 @@ public class ClassroomTest {
         Levy.addExamScores(100.0);
         Levy.addExamScores(99.8);
         fairyTail.addStudent(Levy);
-        Map<Character, String> gradeBook = new TreeMap<>();
-        gradeBook.put('A', "");
-        gradeBook.put('B', "");
-        gradeBook.put('C', "");
-        gradeBook.put('D', "");
-        gradeBook.put('F', "");
-        Map<String, Double> studentGradeMap = new TreeMap<>();
+        Map<Character, List<String>> gradeBook = new TreeMap<>();
+        gradeBook.put('A', new ArrayList<>());
+        gradeBook.put('B', new ArrayList<>());
+        gradeBook.put('C', new ArrayList<>());
+        gradeBook.put('D', new ArrayList<>());
+        gradeBook.put('F', new ArrayList<>());
+        Map<String, Double> studentAvgMap = new TreeMap<>();
         for (int i = 0; i < fairyTail.numOfStudents(); i++) {
             String fullName = fairyTail.students[i].getFirstName() + " " + fairyTail.students[i].getLastName();
             Double score = fairyTail.students[i].getAverageExamScore();
-            studentGradeMap.put(fullName, score);
-                if (studentGradeMap.get(fullName) >= 90.0) {
-                    gradeBook.put('A', studentGradeMap.entrySet().toString());
-                } else if (studentGradeMap.get(fullName) < 90.0 && studentGradeMap.get(fullName) >= 70.0) {
-                    gradeBook.put('B', studentGradeMap.entrySet().toString());
-                } else if (studentGradeMap.get(fullName) < 70.0 && studentGradeMap.get(fullName) >= 50.0) {
-                    gradeBook.put('C', studentGradeMap.entrySet().toString());
-                } else if (studentGradeMap.get(fullName) < 50.0 && studentGradeMap.get(fullName) >= 10.0) {
-                    gradeBook.put('D', studentGradeMap.entrySet().toString());
-                } else if (studentGradeMap.get(fullName) < 10.0) {
-                    gradeBook.put('F', studentGradeMap.entrySet().toString());
-
+            studentAvgMap.put(fullName, score);
+        }
+        for( String fullName : studentAvgMap.keySet()) {
+            if (studentAvgMap.get(fullName) >= 90.0) {
+                gradeBook.get('A').add(fullName + " " + studentAvgMap.get(fullName));
+            } else if (studentAvgMap.get(fullName) < 90.0 && studentAvgMap.get(fullName) >= 70.0) {
+                gradeBook.get('B').add(fullName + " " + studentAvgMap.get(fullName));
+            } else if (studentAvgMap.get(fullName) < 70.0 && studentAvgMap.get(fullName) >= 50.0) {
+                gradeBook.get('C').add(fullName + " " + studentAvgMap.get(fullName));
+            } else if (studentAvgMap.get(fullName) < 50.0 && studentAvgMap.get(fullName) >= 10.0) {
+                gradeBook.get('D').add(fullName + " " + studentAvgMap.get(fullName));
+            } else if (studentAvgMap.get(fullName) < 10.0) {
+                gradeBook.get('F').add(fullName + " " + studentAvgMap.get(fullName));
             }
         }
-        System.out.println("A" + gradeBook.get('A'));
-        System.out.println("B" + gradeBook.get('B'));
-        System.out.println("C" + gradeBook.get('C'));
-        System.out.println("D" + gradeBook.get('D'));
-        System.out.println("F" + gradeBook.get('F'));
     }
 }
